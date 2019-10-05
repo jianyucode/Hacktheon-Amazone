@@ -15,10 +15,7 @@ class ProductForm extends Component {
     }
   }
 
-  handleChange = (e) => {
-    const { name, value } = e.target
-    this.setState({ [name]: value })
-  }
+  handleChange = (e, { name, value, addProduct, updateProduct }) => this.setState({ [name]: value })
 
   handleSubmit = (e) => {
     e.preventDefault()
