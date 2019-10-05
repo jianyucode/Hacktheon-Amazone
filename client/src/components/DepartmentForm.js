@@ -25,7 +25,7 @@ class DepartmentForm extends Component {
         label="New Department"
         type="text"
         name="department"
-        value={department}
+        value={this.props.department}
         onChange={this.handleChange}
       />
       <Form.Button color="blue">Save</Form.Button>
