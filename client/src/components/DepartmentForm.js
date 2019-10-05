@@ -1,15 +1,16 @@
 import React, { Component } from 'react';
 import { Form } from 'semantic-ui-react';
+import { DepartmentConsumer } from '../providers/DepartmentProvider';
 
 class DepartmentForm extends Component {
   state = { name: '' }
 
-  handleChange = (e, { name, value }) => this.setState({ [name]: value })
+  handleChange = (e, { name, value, addDepartment, updateDepartment }) => this.setState({ [name]: value })
 
-  handleSubmit = (e, { name, value, addDepartment, updateDepartment }) => {
+  handleSubmit = (e) => {
     e.preventDefault()
-    this.props.addDepartment(this.state)
-    this.props.updateDepartment(this.state)
+    const department = { ...this.state }
+    this.props.addDepartment(department)
     this.setState( {name: '' })
   }
 
@@ -20,7 +21,7 @@ class DepartmentForm extends Component {
       <Form.Input
         label="New Department"
         type="text"
-        name="department"
+        name="title"
         value={department}
         onChange={this.handleChange}
       />
@@ -30,4 +31,17 @@ class DepartmentForm extends Component {
   }
 }
 
-export default DepartmentForm;
+const ConnectedDepartmentForm = (props) => {
+  return (
+  <DepartmentConsumer>
+    { value => (
+      <DepartmentForm
+      { ...props }
+      addDepartment={value.addDepartment}
+      />
+    )}
+  </DepartmentConsumer>
+  )
+}
+
+export default ConnectedDepartmentForm;
