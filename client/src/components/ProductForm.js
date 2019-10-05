@@ -1,33 +1,33 @@
 import React, { Component } from 'react';
 import { Form } from 'semantic-ui-react';
 
-class DepartmentForm extends Component {
+class ProductForm extends Component {
   state = { name: '' }
 
   handleChange = (e, { name, value }) => this.setState({ [name]: value })
 
-  handleSubmit = (e, { name, value, addDepartment, updateDepartment }) => {
+  handleSubmit = (e, { name, value, addProduct, updateProduct }) => {
     e.preventDefault()
-    this.props.addDepartment(this.state)
-    this.props.updateDepartment(this.state)
+    this.props.addProduct(this.state)
+    this.props.updateProduct(this.state)
     this.setState( {name: '' })
   }
 
   render() {
-    const { department } = this.props;
+    const { product } = this.props;
       return (
     <Form onSubmit={this.handleSubmit}>
       <Form.Input
-        label="New Department"
+        label="New Product"
         type="text"
-        name="department"
-        value={department}
+        name="product"
+        value={product}
         onChange={this.handleChange}
       />
-      <Form.Button color="pink">Save</Form.Button>
+      <Form.Button color="blue">Save</Form.Button>
     </Form>
     )
   }
 }
 
-export default DepartmentForm;
+export default ProductForm;
