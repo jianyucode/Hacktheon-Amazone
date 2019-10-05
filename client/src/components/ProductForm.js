@@ -14,16 +14,30 @@ class ProductForm extends Component {
   }
 
   render() {
-    const { product } = this.props;
+    const { name, price, description } = this.props;
       return (
     <Form onSubmit={this.handleSubmit}>
       <Form.Input
         label="New Product"
+        placeholder="Add New Product"
         type="text"
-        name="product"
-        value={product}
+        name="name"
+        value={name}
         onChange={this.handleChange}
       />
+
+    <Form.Input onSubmit={this.handleChange}
+        name='price'
+        placeholder='Add Price'
+        value={price}
+        required/>
+
+    <Form.Input onSubmit={this.handleChange}
+        name='description'
+        placeholder='Add Description'
+        value={description}
+        required/>
+
       <Form.Button color="blue">Save</Form.Button>
     </Form>
     )
