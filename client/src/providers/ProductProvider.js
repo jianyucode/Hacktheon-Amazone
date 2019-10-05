@@ -8,19 +8,20 @@ export const ProductConsumer = ProductContext.Consumer;
 class ProductProvider extends Component {
     state = { products: [] };
 
-    componentDidMount(){
-        axios.get(`/api/department/${this.props.match.params.id}/products`)
-        .then( res => {
-            this.setState({ products: res.data })
-        })
-        .catch( err => {
-            console.log(err)
-        })
+    getProducts = (department_id) => {
+            axios.get(`/api/department/${department_id}/products`)
+            .then( res => {
+                this.setState({ products: res.data })
+            })
+            .catch( err => {
+                console.log(err)
+            })
+ 
     }
 
 
-addProduct = (product) => {
-    axios.post(`/api/department/${this.props.match.params.id}/products`, {product})
+addProduct = (department_id, product) => {
+    axios.post(`/api/department/${department_id}/products`, {product})
     .then( res => {
         const { products } = this.state
         this.setState({ products: [...products, res.data] })
@@ -30,8 +31,8 @@ addProduct = (product) => {
     })
 }
 
-updateProduct = (id, Product) => {
-    axios.put(`/api/department/${this.props.match.params.id}/products/${id}`, { Product } )
+updateProduct = (department_id, product) => {
+    axios.put(`/api/department/${department_id}/products/${product.id}`, { product } )
     .then( res => {
         const products = this.state.products.map( i => {
             if (i.id === id)
@@ -45,11 +46,11 @@ updateProduct = (id, Product) => {
       })
   }
 
-  deleteProduct = (id) => {
-      axios.delete(`/api/department/${this.props.match.params.id}/products/${id}`)
+  deleteProduct = (department_id, id) => {
+      axios.delete(`/api/department/${department_id}/products/${id}`)
       .then( res => {
           const { products } = this.state
-          this.setState({ product: products.filter( i => i.id !== id) }) 
+          this.setState({ products: products.filter( i => i.id !== id) }) 
       })
   }
 
@@ -57,6 +58,7 @@ render() {
     return(
         <ProductContext.Provider value={{
             ...this.state,
+            getProducts: this.getProducts,
             addProduct: this.addProduct,
             updateProduct: this.updateProduct,
             deleteProduct: this.deleteProduct
@@ -67,4 +69,4 @@ render() {
 }
 }
 
-export default ProductProvider;
+export default ProductProvider; 
