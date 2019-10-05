@@ -1,27 +1,35 @@
 import React, { Component } from 'react';
 import { Form } from 'semantic-ui-react';
 
+import { DepartmentConsumer } from '../providers/DepartmentProvider';
+
+
+
 class DepartmentForm extends Component {
-  state = { name: '' }
 
-  handleChange = (e, { name, value }) => this.setState({ [name]: value })
+  state = { title: '' }
 
-  handleSubmit = (e, { name, value, addDepartment, updateDepartment }) => {
+  handleChange = (e, { name, value, addDepartment, updateDepartment }) => this.setState({ [name]: value })
+
+
+  handleSubmit = (e) => {
     e.preventDefault()
-    this.props.addDepartment(this.state)
-    this.props.updateDepartment(this.state)
-    this.setState( {name: '' })
+    const department = { ...this.state }
+    this.props.addDepartment(department)
+    this.setState({ title: '' })
+
   }
 
-  render() {
-    const { department } = this.props;
+  render(){
+    const { title } = this.state;
       return (
     <Form onSubmit={this.handleSubmit}>
       <Form.Input
         label="New Department"
         type="text"
-        name="department"
-        value={department}
+        name="title"
+        value={title}
+
         onChange={this.handleChange}
       />
       <Form.Button color="pink">Save</Form.Button>
@@ -30,4 +38,18 @@ class DepartmentForm extends Component {
   }
 }
 
-export default DepartmentForm;
+
+const ConnectedDepartmentForm = (props) => {
+  return (
+  <DepartmentConsumer>
+    { value => (
+      <DepartmentForm
+      { ...props }
+      addDepartment={value.addDepartment}
+      />
+    )}
+  </DepartmentConsumer>
+  )
+}
+
+export default ConnectedDepartmentForm;
